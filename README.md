@@ -188,6 +188,6 @@ set REACT_APP_GITHUB_TOKEN=your-github-token-here
 
 
 ----------------------------------------
-Set-ExecutionPolicy RemoteSigned
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 npm start
 ```
