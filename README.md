@@ -185,5 +185,9 @@ npm start
 **Windows Command Prompt:**
 ```cmd
 set REACT_APP_GITHUB_TOKEN=your-github-token-here
+
+
+----------------------------------------
+Set-ExecutionPolicy RemoteSigned
 npm start
 ```
