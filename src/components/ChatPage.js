@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import chatService from '../services/chatService';
+import WritingPlanner from './WritingPlanner';
 
 // Fonction pour formatter le texte avec mise en évidence
 const formatMessage = (text) => {
@@ -79,13 +80,13 @@ const ChatPage = () => {
     {
       id: 1,
       role: 'system',
-      content: "You are ChatAlimi, an educational assistant helping students improve their written productions. Reply in French and be supportive. Use formatting such as **bold** for important points, *italics* for emphasis, and _underlined_ for corrections. Start guidance with 'Conseil :' and warnings with 'Attention :'. When appropriate, you can send images to illustrate your explanations. You can analyze images sent by the user and provide feedback on them.",
+      content: "You are ChatAlimi, an educational assistant specialized in correcting and improving student writing. Reply in French and be supportive. Use formatting such as **bold** for important points, *italics* for emphasis, and _underlined_ for corrections. Start guidance with 'Conseil :' and warnings with 'Attention :'. When appropriate, you can send images to illustrate your explanations.\n\nTu dois te concentrer UNIQUEMENT sur la correction de textes. Ne pas proposer d'aide à la création de textes ou de productions écrites.\n\nVoici les critères d'évaluation à utiliser pour analyser et corriger les productions écrites:\n\nC1 - Adéquation avec la situation de communication:\n- Production du nombre de phrases demandé ou plus\n- Manifestation de compréhension en réalisant la tâche demandée\n- Utilisation du vocabulaire approprié à la situation de communication\n- SUGGESTIONS: Proposer des termes plus précis ou plus adaptés au contexte, suggérer d'autres manières d'exprimer les idées importantes\n- IDÉES: Suggérer des pistes pour développer certains aspects du sujet qui mériteraient plus d'attention\n\nC2 - Lisibilité de l'écriture:\n- Respect des normes au niveau des lettres minuscules et majuscules\n- SUGGESTIONS: Indiquer où ajouter des majuscules avec des exemples précis\n\nC3 - Correction linguistique:\n- Agencement correct des mots dans les phrases produites\n- Respect des accords étudiés\n- Écriture correcte des formes verbales étudiées\n- Utilisation de la ponctuation forte: point et point d'interrogation\n- SUGGESTIONS: Proposer des reformulations des phrases incorrectes, montrer les formes verbales correctes, proposer des alternatives pour enrichir la ponctuation\n- IDÉES: Proposer des variations de phrases pour exprimer la même idée de façon plus élégante\n\nC4 - Correction orthographique:\n- Écriture correcte du lexique et des mots-outils étudiés\n- SUGGESTIONS: Donner la liste des mots mal orthographiés avec leur orthographe correcte, proposer des mots de vocabulaire supplémentaires liés au sujet\n- IDÉES: Suggérer un vocabulaire plus riche et des expressions idiomatiques qui enrichiraient le texte\n\nC5 - Cohérence du texte:\n- Emploi correct des substituts pour éviter les répétitions\n- Progression des événements dans le récit\n- Absence de contradiction\n- Introduction opportune de répliques ou passages descriptifs\n- SUGGESTIONS: Proposer des substituts pour remplacer les répétitions, suggérer des connecteurs logiques pour améliorer la progression\n- IDÉES: Suggérer des transitions plus fluides entre les parties du texte, proposer des idées pour étoffer les passages qui manquent de développement\n\nC6 - Originalité des idées:\n- Créativité dans la production\n- Utilisation d'un vocabulaire riche\n- SUGGESTIONS: Proposer des idées pour enrichir certains passages, suggérer des expressions imagées ou des comparaisons pertinentes\n- IDÉES: Proposer des rebondissements inattendus, des détails surprenants, des dialogues originaux ou des descriptions innovantes pour rendre le texte plus captivant\n\nC7 - Présentation matérielle:\n- Présentation d'une copie propre sans rature ni surcharge\n- Respect des caractéristiques formelles du type d'écrit demandé\n- SUGGESTIONS: Proposer un format adapté, suggérer une meilleure disposition du texte si nécessaire\n\nPour chaque texte soumis:\n1. Analyse-le en fonction de ces 7 critères\n2. Structure ta réponse avec une section pour chaque critère\n3. Pour chaque critère, identifie les points forts et les points à améliorer\n4. TRÈS IMPORTANT: Donne des suggestions concrètes et des exemples d'alternatives pour chaque problème identifié\n5. TRÈS IMPORTANT: Propose des idées créatives pour enrichir le texte, notamment en développant les idées qui pourraient être plus approfondies\n6. Termine par une conclusion encourageante avec des conseils d'amélioration clairs\n\nNe te contente jamais de signaler les erreurs - propose toujours des alternatives concrètes, des corrections spécifiques, des exemples et des idées nouvelles pour enrichir la production écrite.",
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     },
     {
       id: 2,
       role: 'assistant',
-      content: "Bonjour ! Je suis **ChatAlimi**, ton assistant pour t'aider avec tes productions écrites. Comment puis-je t'aider aujourd'hui ?",
+      content: "Bonjour ! Je suis **ChatAlimi**, ton assistant pour corriger et enrichir tes textes.\n\nPartage ton texte avec moi, et je l'analyserai selon les 7 critères d'évaluation suivants :\n\n**C1 - Adéquation avec la situation de communication**\n**C2 - Lisibilité de l'écriture**\n**C3 - Correction linguistique**\n**C4 - Correction orthographique**\n**C5 - Cohérence du texte**\n**C6 - Originalité des idées**\n**C7 - Présentation matérielle**\n\nPour chaque critère, je te donnerai :\n• Les points forts de ton texte\n• Les éléments à améliorer\n• Des suggestions concrètes de corrections\n• Des idées créatives pour enrichir ton texte\n\nPar exemple, pour une phrase comme _\"Le garçon a manger une pomme hier.\"_, je pourrais suggérer :\n\n**C3 - Correction linguistique** :\n- ✓ Points forts : Bonne structure sujet-verbe-complément\n- ⚠️ À améliorer : Conjugaison du verbe \"manger\" au passé composé\n- 📝 Suggestion : \"Le garçon a **mangé** une pomme hier.\"\n- 💡 Idée créative : \"Le jeune garçon a savouré une pomme juteuse hier après-midi, se délectant de chaque bouchée.\"\n\nTu peux aussi utiliser notre **planificateur de production écrite** pour organiser tes idées avant d'écrire.\n\nJe suis prêt à t'aider ! Partage ton texte quand tu veux.",
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
   ]);
@@ -132,6 +133,9 @@ const ChatPage = () => {
   // Ajouter des références pour suivre l'état actuel immédiatement
   const isSpeakingRef = useRef(false);
   const cancelRequestedRef = useRef(false);
+
+  // Ajout de l'état pour le planificateur d'écriture
+  const [showWritingPlanner, setShowWritingPlanner] = useState(false);
 
   // useEffect pour les avertissements si nécessaire
   useEffect(() => {
@@ -348,6 +352,20 @@ const ChatPage = () => {
       
       // Add the new user message
       apiMessages.push({ role: userMessage.role, content: messageForAPI });
+      
+      // Vérifier si la demande semble être une correction de texte
+      const isCorrectionRequest = messageForAPI.toLowerCase().includes('corrige') || 
+                                  messageForAPI.toLowerCase().includes('correction') ||
+                                  messageForAPI.toLowerCase().includes('évaluer') ||
+                                  messageForAPI.toLowerCase().includes('critères');
+      
+      // Si c'est une demande de correction, ajouter un message système spécifique
+      if (isCorrectionRequest) {
+        apiMessages.push({
+          role: 'system',
+          content: "Pour cette correction, analyse le texte de l'élève selon les 7 critères d'évaluation mentionnés précédemment. Structure ta réponse en 7 sections, une pour chaque critère. Pour chaque critère, identifie les points forts et les points à améliorer. Utilise des exemples concrets tirés du texte de l'élève. Termine par une conclusion encourageante et constructive. Utilise le formatage (gras, italique, souligné) pour mettre en évidence les éléments importants."
+        });
+      }
       
       console.log("Appel de l'API avec les messages:", apiMessages);
       
@@ -1149,6 +1167,116 @@ const ChatPage = () => {
     }
   }, [isSpeakingRef.current, cancelRequestedRef.current, isSpeechSynthesisSupported, voicePrefs.rate]);
 
+  // Fonction pour le mode production écrite avec processus en plusieurs étapes
+  const activateIntegratedProductionMode = () => {
+    // Commencer par proposer des sujets, pas directement le planificateur
+    const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    
+    // Ajouter un message utilisateur
+    const userMessage = {
+      id: messages.length + 1,
+      role: 'user',
+      content: "Je souhaite faire une production écrite. Aide-moi à choisir un sujet et à développer mon texte.",
+      timestamp: timestamp
+    };
+    
+    // Ajouter l'instruction système pour le mode production
+    const systemMessage = {
+      id: messages.length + 2,
+      role: 'system',
+      content: "L'élève commence une production écrite. Guide-le par étapes : 1) Propose plusieurs sujets adaptés à son niveau, 2) Une fois le sujet choisi, suggère d'utiliser le plan d'écriture ou propose un plan simple, 3) Aide à développer chaque partie avec des conseils précis et des suggestions pour enrichir le vocabulaire.",
+      timestamp: timestamp
+    };
+    
+    // Mettre à jour les messages
+    setMessages(prev => [...prev, userMessage]);
+    
+    // Simuler une réponse de l'assistant proposant des sujets
+    setIsLoading(true);
+    setTimeout(() => {
+      const assistantMessage = {
+        id: messages.length + 3,
+        role: 'assistant',
+        content: "Je vais t'aider à créer une belle production écrite ! Commençons par choisir un sujet intéressant. Voici quelques idées :\n\n1. **Une aventure à la plage** - Tu pourrais raconter une journée exceptionnelle avec une découverte surprenante.\n\n2. **Mon ami(e) imaginaire** - Décris comment est cet ami, ce que vous faites ensemble.\n\n3. **Un voyage dans le futur** - Imagine comment sera le monde dans 100 ans.\n\n4. **Le jour où j'ai aidé quelqu'un** - Raconte une histoire où tu as fait une bonne action.\n\n5. **Un animal extraordinaire** - Invente un animal avec des pouvoirs spéciaux.\n\nQuel sujet te plairait le plus ? Tu peux aussi proposer ton propre sujet si tu as une autre idée !",
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      };
+      
+      setMessages(prev => [...prev, assistantMessage]);
+      setIsLoading(false);
+    }, 500);
+  };
+  
+  // Fonction pour activer le planificateur d'écriture
+  const toggleWritingPlanner = () => {
+    setShowWritingPlanner(!showWritingPlanner);
+    // Masquer les modes spécifiques si le planificateur est ouvert
+    if (!showWritingPlanner) {
+      // Si on ouvre le planificateur, on peut ajouter un message de guidage
+      setMessages(prevMessages => [
+        ...prevMessages,
+        {
+          id: Date.now(),
+          role: 'assistant',
+          content: "Le planificateur de production écrite va t'aider à organiser ton texte. Tu pourras définir l'état initial et la suite des événements de ton récit. Une fois terminé, le plan sera envoyé dans notre conversation et je pourrai t'aider à développer ton texte et à l'améliorer.",
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        }
+      ]);
+    }
+  };
+
+  // Fonction pour le mode correction
+  const activateCorrectionMode = () => {
+    // Envoyer directement une demande de correction
+    const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    
+    // Ajouter un message utilisateur
+    const userMessage = {
+      id: messages.length + 1,
+      role: 'user',
+      content: "Je souhaite faire corriger un texte selon les 7 critères d'évaluation.",
+      timestamp: timestamp
+    };
+    
+    // Ajouter l'instruction système pour le mode correction
+    const systemMessage = {
+      id: messages.length + 2,
+      role: 'system',
+      content: "L'élève souhaite que tu corriges un texte selon les 7 critères. Demande-lui de partager son texte. Après réception du texte, analyse-le en fonction des 7 critères d'évaluation détaillés plus haut. Structure ta réponse en 7 sections, une pour chaque critère. Précise les points forts et les points à améliorer.",
+      timestamp: timestamp
+    };
+    
+    // Mettre à jour les messages
+    setMessages(prev => [...prev, userMessage]);
+    
+    // Simuler une réponse de l'assistant
+    setIsLoading(true);
+    setTimeout(() => {
+      const assistantMessage = {
+        id: messages.length + 3,
+        role: 'assistant',
+        content: "Je suis prêt à corriger ton texte selon les 7 critères d'évaluation. Partage-le-moi, et je t'aiderai à l'améliorer.",
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      };
+      
+      setMessages(prev => [...prev, assistantMessage]);
+      setIsLoading(false);
+    }, 500);
+  };
+
+  // Fonction pour appliquer le template du planificateur dans le flux de conversation
+  const handleApplyWritingTemplate = (template) => {
+    // Cacher le planificateur
+    setShowWritingPlanner(false);
+    
+    // Ajouter le plan directement au message en cours d'édition, sans envoyer automatiquement
+    setNewMessage(`Voici le plan de mon texte :\n\n${template}`);
+    
+    // Mettre le focus sur le champ de texte
+    setTimeout(() => {
+      document.querySelector('.chat-input .form-control')?.focus();
+    }, 100);
+  };
+
   return (
     <div className="chat-page d-flex flex-column vh-100">
       <header className="container-fluid py-2 bg-white shadow-sm">
@@ -1491,6 +1619,19 @@ const ChatPage = () => {
               </div>
             )}
             
+            <div className="input-group mb-2">
+              {/* Suppression des boutons de mode. Le chat guidera directement l'utilisateur */}
+              <button
+                type="button"
+                className="btn btn-outline-primary w-100"
+                onClick={toggleWritingPlanner}
+                disabled={isLoading}
+              >
+                <i className="fas fa-pencil-alt me-2"></i>
+                {showWritingPlanner ? "Fermer le planificateur" : "Ouvrir le planificateur de production écrite"}
+              </button>
+            </div>
+            
             <div className="input-group">
               <button
                 type="button"
@@ -1563,6 +1704,27 @@ const ChatPage = () => {
           </p>
         </div>
       </footer>
+
+      {/* Afficher le planificateur au-dessus du chat si nécessaire */}
+      {showWritingPlanner && (
+        <div className="writing-planner-overlay">
+          <div className="writing-planner-modal">
+            <div className="writing-planner-header d-flex justify-content-between align-items-center mb-3">
+              <h3>Planificateur de production écrite</h3>
+              <button 
+                className="btn-close" 
+                onClick={toggleWritingPlanner}
+                aria-label="Fermer"
+              ></button>
+            </div>
+            <div className="writing-planner-content">
+              <WritingPlanner onApplyTemplate={handleApplyWritingTemplate} />
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {/* Le modal du planificateur est supprimé car non nécessaire */}
     </div>
   );
 };

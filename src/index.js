@@ -6,7 +6,10 @@ import reportWebVitals from './reportWebVitals';
 
 // Import FontAwesome
 import '@fortawesome/fontawesome-free/css/all.min.css';
-
+// Import ChatBackground styles
+import './styles/ChatBackground.css';
+// Import ChatBackground styles
+import './styles/ChatBackground.css';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>

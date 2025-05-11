@@ -10,6 +10,10 @@ ChatAlimi is an educational AI assistant designed to help students improve their
 - **Text Formatting**: Displays bold, italic, and underlined text for emphasis
 - **Responsive Design**: Works on desktop and mobile devices
 
+## Git Configuration
+
+For instructions on how to set up Git for this project, push to a remote repository, and clone on another PC, please refer to [GIT_SETUP.md](GIT_SETUP.md).
+
 ## Technical Implementation
 
 - React-based frontend with React Router for navigation

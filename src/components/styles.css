@@ -662,3 +662,109 @@
     font-size: 0.65rem;
     padding: 0.2em 0.5em;
   }
+  
+  /* Styles pour l'overlay du planificateur */
+  .writing-planner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .writing-planner-modal {
+    background-color: white;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 24px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  .writing-planner-header {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .writing-planner-content {
+    max-height: calc(90vh - 80px);
+    overflow-y: auto;
+  }
+  
+  /* Styles pour le planificateur lui-même */
+  .writing-planner-container {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+  }
+  
+  .writing-planner-container h2 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+  }
+  
+  .writing-planner-container .section-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  }
+  
+  .writing-planner-container .section-container h4 {
+    color: var(--primary-color);
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .writing-planner-container textarea {
+    border: 1px solid #ddd;
+    resize: vertical;
+    font-size: 0.95rem;
+  }
+  
+  .writing-planner-container textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(var(--primary-color-rgb), 0.25);
+  }
+  
+  .writing-planner-container .form-label {
+    font-weight: 600;
+    color: #555;
+  }
+  
+  .writing-planner-container .text-muted {
+    font-size: 0.85rem;
+  }
+  
+  /* Styles pour les boutons du planificateur */
+  .writing-planner-container .btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    font-weight: 600;
+  }
+  
+  .writing-planner-container .btn-primary:hover {
+    background-color: var(--primary-color-dark);
+    border-color: var(--primary-color-dark);
+  }
+  
+  /* Animation pour l'apparition du planificateur */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .writing-planner-modal {
+    animation: fadeIn 0.3s ease-out;
+  }

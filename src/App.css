@@ -244,3 +244,48 @@ footer p {
   background-color: white;
   border-bottom: 5px dashed var(--secondary-color);
 }
+
+/* Styles pour le planificateur d'écriture */
+.writing-planner-container {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.writing-planner-container h2 {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.writing-planner-container h4 {
+  color: var(--accent-color);
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.section-container {
+  background-color: #f9f9f9;
+  transition: all 0.3s ease;
+}
+
+.section-container:hover {
+  background-color: #f0f0f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-check-input:checked {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+/* Ajuster l'apparence du modal pour les appareils mobiles */
+@media (max-width: 768px) {
+  .modal-dialog {
+    margin: 0.5rem;
+    max-width: calc(100% - 1rem);
+  }
+  
+  .writing-planner-container {
+    padding: 0.5rem !important;
+  }
+}

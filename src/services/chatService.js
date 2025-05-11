@@ -46,7 +46,12 @@ export class ChatService {
           messages: messages,
           temperature: 0.7,
           top_p: 1.0,
-          model: this.model
+          model: this.model,
+          max_tokens: 2048,
+          stop: null,
+          response_format: { type: "text" },
+          presence_penalty: 0.1,
+          frequency_penalty: 0.5
         }
       });
 
