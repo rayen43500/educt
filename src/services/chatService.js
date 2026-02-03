@@ -1,76 +1,60 @@
-import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
-import { AzureKeyCredential } from "@azure/core-auth";
-
-// This service handles integration with the GitHub AI Models Inference SDK
+// This service handles integration with Google Gemini API
 export class ChatService {
   constructor() {
-    // Using the token from environment variables
-    this.token = process.env.REACT_APP_GITHUB_TOKEN;
-    this.endpoint = "https://models.github.ai/inference";
-    this.model = "openai/gpt-5";
+    // Using the API key from environment variables
+    this.apiKey = process.env.REACT_APP_GEMINI_API_KEY;
+    this.endpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent";
     
-    // Vérifier si le token est défini
-    if (!this.token) {
-      console.error("Token GitHub non défini ! Veuillez définir REACT_APP_GITHUB_TOKEN dans .env.local");
+    // Vérifier si la clé API est définie
+    if (!this.apiKey) {
+      console.error("Clé API Gemini non définie ! Veuillez définir REACT_APP_GEMINI_API_KEY dans .env");
     }
-  }
-
-  // Initialize the client
-  getClient() {
-    return ModelClient(
-      this.endpoint,
-      new AzureKeyCredential(this.token)
-    );
   }
 
   // Get a response from the AI model
   async getChatResponse(messages) {
     try {
-      // Vérifier si le token est défini
-      if (!this.token || this.token === "your_github_token_here") {
-        throw new Error("Token GitHub non défini. Veuillez configurer votre token dans le fichier .env.local");
+      // Vérifier si la clé API est définie
+      if (!this.apiKey) {
+        throw new Error("Clé API Gemini non définie. Veuillez configurer votre clé dans le fichier .env");
       }
       
-      const client = this.getClient();
-      
-      const response = await client.path("/chat/completions").post({
-        body: {
-          messages: messages,
-          temperature: 0.7,
-          top_p: 1.0,
-          model: this.model,
-          max_tokens: 2048,
-          stop: null,
-          response_format: { type: "text" },
-          presence_penalty: 0.1,
-          frequency_penalty: 0.5
-        }
+      // Convertir les messages au format Gemini
+      const contents = messages.map(msg => ({
+        role: msg.role === "assistant" ? "model" : "user",
+        parts: [{ text: msg.content }]
+      }));
+
+      const response = await fetch(`${this.endpoint}?key=${this.apiKey}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contents: contents,
+          generationConfig: {
+            maxOutputTokens: 2048
+          }
+        })
       });
 
-      if (isUnexpected(response)) {
-        console.error("Réponse inattendue de l'API:", response.body);
-        if (response.status === 401) {
-          throw new Error("Erreur d'authentification. Vérifiez que votre token GitHub est valide et a les permissions nécessaires.");
-        }
-        throw new Error(response.body.error?.message || "Erreur de l'API");
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error("Erreur de l'API Gemini:", data);
+        throw new Error(data.error?.message || "Erreur de l'API Gemini");
       }
 
-      // Vérifier si la réponse contient un tableau de contenus (multimodal)
-      const responseMessage = response.body.choices[0].message;
+      // Extraire le texte de la réponse
+      const responseText = data.candidates?.[0]?.content?.parts?.[0]?.text;
       
-      // Si la réponse est de type multimodal (peut contenir des images)
-      if (responseMessage.content && Array.isArray(responseMessage.content)) {
-        console.log("Réponse multimodale détectée:", responseMessage.content);
-        
-        // Traiter la réponse multimodale
-        return this.processMultimodalResponse(responseMessage.content);
+      if (!responseText) {
+        throw new Error("Réponse vide de l'API Gemini");
       }
-      
-      // Format standard (texte uniquement)
-      return responseMessage.content;
+
+      return responseText;
     } catch (error) {
       console.error("Error getting chat response:", error);
-      // S'assurer que l'erreur a un message
       const errorMessage = error.message || "Erreur inconnue lors de la communication avec l'API";
       const errorObject = new Error(errorMessage);
       errorObject.message = errorMessage;
@@ -80,19 +64,15 @@ export class ChatService {
 
   // Traite une réponse multimodale (contient potentiellement des images)
   processMultimodalResponse(contentArray) {
-    // Exemple de format attendu: [{ type: "image_url", image_url: { url: "..." } }, { type: "text", text: "..." }]
     let result = {
       text: "",
       images: []
     };
 
-    // Parcourir tous les éléments de contenu
     for (const content of contentArray) {
       if (content.type === "text") {
-        // Ajouter le texte à la réponse
         result.text += content.text;
       } else if (content.type === "image_url" && content.image_url && content.image_url.url) {
-        // Ajouter l'URL de l'image à la liste des images
         result.images.push(content.image_url.url);
       }
     }
