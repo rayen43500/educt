@@ -1,24 +1,16 @@
 import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
 import { AzureKeyCredential } from "@azure/core-auth";
 
-// This service handles integration with the Azure AI Inference SDK
+// This service handles integration with the GitHub AI Models Inference SDK
 export class ChatService {
   constructor() {
-    // Débogage: afficher toutes les variables d'environnement pour vérifier
-    console.log("Variables d'environnement disponibles:", Object.keys(process.env));
-    console.log("REACT_APP_ vars:", Object.keys(process.env).filter(key => key.startsWith('REACT_APP_')));
-    console.log("Token prefixe (pour débogage):", process.env.REACT_APP_GITHUB_TOKEN?.substring(0, 10) + "...");
-    
-    // Token de secours pour tester (à remplacer par un vrai token pour production)
-    const backupToken = "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";
-    
     // Using the token from environment variables
-    this.token = process.env.REACT_APP_GITHUB_TOKEN || backupToken;
+    this.token = process.env.REACT_APP_GITHUB_TOKEN;
     this.endpoint = "https://models.github.ai/inference";
-    this.model = "openai/gpt-4.1";
+    this.model = "openai/gpt-5";
     
     // Vérifier si le token est défini
-    if (!this.token || this.token === "your_github_token_here") {
+    if (!this.token) {
       console.error("Token GitHub non défini ! Veuillez définir REACT_APP_GITHUB_TOKEN dans .env.local");
     }
   }
